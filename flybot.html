@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FlyBot.com</title>
+  <style>
+    /* Reset some defaults */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.70;
+      background: #f4f4f4;
+    }
+
+    header {
+      background: #221f1d;
+      color: rgba(227, 103, 26, 0.925);
+      padding: 1rem 0;
+      text-align: center;
+    }
+
+    nav {
+      background: #8d1616;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav a {
+      color: rgb(254, 251, 251);
+      padding: 1rem;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: #393a3b;
+    }
+
+    .hero {
+      background: url('https://t4.ftcdn.net/jpg/03/10/74/27/360_F_310742797_c7qJBr4SY0MNbYxZdo2utTxlcQ24IN8l.jpg') center/cover no-repeat;
+      color: rgb(0, 48, 15);
+      padding: 100px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 0.5em;
+    }
+
+    .content {
+      padding: 2rem;
+      background: white;
+      max-width: 1000px;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .form-container {
+      margin-top: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form input, form textarea {
+      margin-bottom: 1rem;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #070707;
+      border-radius: 5px;
+    }
+
+    form button {
+      background: #000000;
+      color: rgb(242, 235, 235);
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background: #615c5c;
+    }
+
+    footer {
+      background: #000000;
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <b><h1>FlyBot Booking</h1></b>
+    <p></p>
+  </header>
+
+  <nav>
+    <a href="#Domestic">Domestic</a>
+    <a href="#International">International</a>
+    <a href="#commercial">Commercial</a>
+  </nav>
+
+  <section class="hero" id="home">
+    <h1><i>Welcome!</h1></i>
+    <p>Don't just Dream it-book it, fly it, live it.</p>
+  </section>
+
+  <section class="content" id="about">
+    <h2>Travel with FlyBot</h2>
+    <p><i>Discover top destinations, compare the best deals, and book in just a few clicks 🛫.</p></i>
+  </section>
+
+  <section class="content" id="contact">
+    <h2>Contact Us</h2>
+    <div class="form-container">
+      <form onsubmit="return handleSubmit(event)">
+        <input type="text" placeholder="Your Name" id="name" required />
+        <input type="email" placeholder="Your Email" id="email" required />
+        <textarea placeholder="Your Message" rows="5" id="message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 My Awesome Website. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (name && email && message) {
+        alert(`Thank you, ${name}! Your message has been received.`);
+        document.querySelector('form').reset();
+      } else {
+        alert('Please fill out all fields.');
+      }
+    }
+  </script>
+
+</body>
+</html>
