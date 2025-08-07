@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      width: 260px;
+    }
+
+    .display {
+      background: #000;
+      color: #0f0;
+      font-size: 2rem;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: right;
+      margin-bottom: 15px;
+      height: 50px;
+      overflow-x: auto;
+      user-select: none;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      background: #444;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      user-select: none;
+    }
+
+    button.operator {
+      background: #f57c00;
+    }
+
+    button.clear {
+      background: #d32f2f;
+    }
+
+    button.equals {
+      background: #388e3c;
+      grid-column: span 1;
+    }
+
+    button:hover {
+      background: #666;
+    }
+
+    button.operator:hover {
+      background: #fb8c00;
+    }
+
+    button.clear:hover {
+      background: #e53935;
+    }
+
+    button.equals:hover {
+      background: #43a047;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear">C</button>
+      <button>/</button>
+      <button>*</button>
+      <button>-</button>
+      
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="operator">+</button>
+      
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button class="equals">=</button>
+      
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>0</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const buttons = document.querySelectorAll('.buttons button');
+    
+    let currentInput = '';
+    let lastInput = '';
+    let resultDisplayed = false;
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const btnValue = button.textContent;
+
+        if (button.classList.contains('clear')) {
+          // Clear everything
+          currentInput = '';
+          display.textContent = '0';
+          resultDisplayed = false;
+          return;
+        }
+
+        if (button.classList.contains('equals')) {
+          try {
+            // Evaluate expression
+            if (currentInput.trim() === '') return;
+            // Replace any trailing operators
+            if (/[+\-*/.]$/.test(currentInput)) {
+              currentInput = currentInput.slice(0, -1);
+            }
+            const evaluated = eval(currentInput);
+            display.textContent = evaluated;
+            currentInput = evaluated.toString();
+            resultDisplayed = true;
+          } catch (e) {
+            display.textContent = 'Error';
+            currentInput = '';
+            resultDisplayed = true;
+          }
+          return;
+        }
+
+        // If result was just displayed and user presses number, reset input
+        if (resultDisplayed) {
+          if (/[0-9.]/.test(btnValue)) {
+            currentInput = btnValue;
+            display.textContent = currentInput;
+            resultDisplayed = false;
+            return;
+          } else {
+            resultDisplayed = false; // allow chaining with operators
+          }
+        }
+
+        // Prevent multiple operators in a row
+        if (/[+\-*/]/.test(btnValue)) {
+          if (currentInput === '') {
+            // Can't start with an operator except minus for negative number
+            if (btnValue !== '-') return;
+            currentInput = btnValue;
+            display.textContent = currentInput;
+            return;
+          }
+          if (/[+\-*/]$/.test(currentInput)) {
+            // Replace the last operator with the new one
+            currentInput = currentInput.slice(0, -1) + btnValue;
+            display.textContent = currentInput;
+            return;
+          }
+        }
+
+        // Prevent multiple decimals in a number segment
+        if (btnValue === '.') {
+          // Split input by operators to get last number
+          const parts = currentInput.split(/[+\-*/]/);
+          const lastNumber = parts[parts.length - 1];
+          if (lastNumber.includes('.')) return; // ignore if already has a dot
+          if (lastNumber === '') currentInput += '0'; // add leading zero if dot pressed first
+        }
+
+        // Append value
+        currentInput += btnValue;
+        display.textContent = currentInput;
+      });
+    });
+  </script>
+</body>
+</html>
